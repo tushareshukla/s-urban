@@ -22,7 +22,7 @@ WIDTH, HEIGHT = A4
 
 # Brand Colors - S-Urban Website Theme (Dark with Yellow)
 DARK_BG = HexColor('#1a1a1a')         # Main dark background
-DARKER_BG = HexColor('#0d0d0d')       # Darker sections
+DARKER_BG = HexColor('#000000')       # Pure black background
 ACCENT_YELLOW = HexColor('#f5b041')   # Yellow/Gold accent
 ACCENT_DARK_YELLOW = HexColor('#d4a534')  # Darker yellow
 WHITE = HexColor('#ffffff')
@@ -175,7 +175,7 @@ def create_profile_pdf(output_path):
     # ==================== PAGE 1 - HERO COVER ====================
     
     # Full page dark background
-    c.setFillColor(DARK_BG)
+    c.setFillColor(DARKER_BG)
     c.rect(0, 0, WIDTH, HEIGHT, fill=1, stroke=0)
     
     # Top accent bar (brown/maroon like website header)
@@ -270,7 +270,7 @@ def create_profile_pdf(output_path):
     # ==================== PAGE 2 - ABOUT US ====================
     
     # Dark background
-    c.setFillColor(DARK_BG)
+    c.setFillColor(DARKER_BG)
     c.rect(0, 0, WIDTH, HEIGHT, fill=1, stroke=0)
     
     # Top accent bar
@@ -466,7 +466,7 @@ def create_profile_pdf(output_path):
     # ==================== PAGE 4 - PROJECT LIFECYCLE ====================
     
     # Dark background
-    c.setFillColor(DARK_BG)
+    c.setFillColor(DARKER_BG)
     c.rect(0, 0, WIDTH, HEIGHT, fill=1, stroke=0)
     
     # Top accent
@@ -710,7 +710,7 @@ def create_profile_pdf(output_path):
     # ==================== PAGE 6 - CONTACT (FIXED LAYOUT) ====================
 
     # Dark background
-    c.setFillColor(DARK_BG)
+    c.setFillColor(DARKER_BG)
     c.rect(0, 0, WIDTH, HEIGHT, fill=1, stroke=0)
 
     # Top accent
