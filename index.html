@@ -163,6 +163,11 @@
         .founder-stat{text-align:center}
         .founder-stat span{font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:700;color:var(--accent);display:block}
         .founder-stat small{font-size:.8rem;color:var(--gray-600)}
+        .clients{background:var(--white);padding:80px 0}
+        .clients-grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:40px 60px}
+        .client-logo{background:var(--white);padding:20px 30px;border-radius:12px;transition:all .3s;display:flex;align-items:center;justify-content:center;filter:grayscale(100%);opacity:.7}
+        .client-logo:hover{filter:grayscale(0%);opacity:1;transform:scale(1.05)}
+        .client-logo img{max-height:60px;max-width:150px;object-fit:contain}
         .cta-section{background:var(--gradient-primary);padding:80px 0;text-align:center;position:relative;overflow:hidden}
         .cta-section::before{content:'';position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.03) 1px,transparent 1px);background-size:40px 40px}
         .cta-content{position:relative;z-index:1}
@@ -356,7 +361,7 @@
         <div class="container">
             <div class="section-header"><div class="section-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Leadership</div><h2 class="section-title">Visionary Behind S-Urban</h2></div>
             <div class="founder-card reveal">
-                <div class="founder-img"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" alt="Suryakesh Kumar Singh" loading="lazy"><div class="founder-img-overlay"></div></div>
+                <div class="founder-img"><img src="images/founder.jpeg" alt="Suryakesh Kumar Singh" loading="lazy"><div class="founder-img-overlay"></div></div>
                 <div class="founder-content">
                     <div class="section-tag">Founder & CEO</div>
                     <h3>Suryakesh Kumar Singh</h3>
@@ -365,6 +370,18 @@
                     <div class="founder-expertise"><h5>Areas of Expertise</h5><div class="expertise-tags"><span>RCC Structures</span><span>PEB Sheds</span><span>High-Rise Towers</span><span>Commercial Complex</span><span>Infrastructure</span></div></div>
                     <div class="founder-stats"><div class="founder-stat"><span>8+</span><small>Years Leadership</small></div><div class="founder-stat"><span>100+</span><small>Projects Led</small></div><div class="founder-stat"><span>3</span><small>Regions Covered</small></div></div>
                 </div>
+            </div>
+        </div>
+    </section>
+    <section class="clients" id="clients">
+        <div class="container">
+            <div class="section-header"><div class="section-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>Our Clients</div><h2 class="section-title">Trusted by Industry Leaders</h2><p class="section-desc">We are proud to partner with leading organizations across diverse sectors, delivering excellence in every project.</p></div>
+            <div class="clients-grid">
+                <div class="client-logo reveal"><img src="images/loparex.jpeg" alt="Loparex" loading="lazy"></div>
+                <div class="client-logo reveal"><img src="images/param-infraspace.jpeg" alt="Param Infraspace" loading="lazy"></div>
+                <div class="client-logo reveal"><img src="images/elleys.jpeg" alt="Elleys" loading="lazy"></div>
+                <div class="client-logo reveal"><img src="images/vtrans.jpeg" alt="V-Trans" loading="lazy"></div>
+                <div class="client-logo reveal"><img src="images/gamma-consultants.jpeg" alt="1.5 Gamma Consultants" loading="lazy"></div>
             </div>
         </div>
     </section>
