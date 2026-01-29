@@ -1188,6 +1188,10 @@
                         <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor"/></svg>
                     </a>
                     <a href="#services" class="btn btn-outline">Explore Services</a>
+                    <a href="S-Urban_Business_Profile.pdf" download class="btn btn-outline">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="currentColor"/><polyline points="7 10 12 15 17 10" stroke="currentColor"/><line x1="12" y1="15" x2="12" y2="3" stroke="currentColor"/></svg>
+                        Download Profile
+                    </a>
                 </div>
             </div>
             <div class="hero-visual">
@@ -1217,7 +1221,7 @@
                 <div class="stat-label">Projects Completed</div>
             </div>
             <div class="stat-item">
-                <div class="stat-num">50+</div>
+                <div class="stat-num">15+</div>
                 <div class="stat-label">Happy Clients</div>
             </div>
             <div class="stat-item">
@@ -1580,22 +1584,22 @@
                         </div>
                     </div>
                 </div>
-                <form class="contact-form reveal" id="contactForm">
+                <form class="contact-form reveal" id="contactForm" action="https://formspree.io/f/xeekkgqr" method="POST">
                     <div class="form-group">
                         <label>Your Name</label>
-                        <input type="text" placeholder="Enter your full name" required>
+                        <input type="text" name="name" placeholder="Enter your full name" required>
                     </div>
                     <div class="form-group">
                         <label>Email Address</label>
-                        <input type="email" placeholder="Enter your email" required>
+                        <input type="email" name="email" placeholder="Enter your email" required>
                     </div>
                     <div class="form-group">
                         <label>Phone Number</label>
-                        <input type="tel" placeholder="Enter your phone number">
+                        <input type="tel" name="phone" placeholder="Enter your phone number">
                     </div>
                     <div class="form-group">
                         <label>Project Details</label>
-                        <textarea placeholder="Tell us about your project..."></textarea>
+                        <textarea name="message" placeholder="Tell us about your project..."></textarea>
                     </div>
                     <button type="submit" class="form-btn">
                         Send Message
@@ -1675,11 +1679,28 @@
             });
         });
 
-        // Form
+        // Form submission with Formspree
         document.getElementById('contactForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('Thank you for your message! We will get back to you soon.');
-            this.reset();
+            const form = this;
+            const formData = new FormData(form);
+
+            fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response => {
+                if (response.ok) {
+                    alert('Thank you for your message! We will get back to you soon.');
+                    form.reset();
+                } else {
+                    alert('Oops! There was a problem submitting your form. Please try again.');
+                }
+            }).catch(error => {
+                alert('Oops! There was a problem submitting your form. Please try again.');
+            });
         });
     </script>
 </body>
