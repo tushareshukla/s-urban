@@ -1059,6 +1059,48 @@
             .about-badge span { font-size: 1.5rem; }
         }
 
+        /* Clients */
+        .clients {
+            background: var(--white);
+            padding: 60px 5%;
+        }
+
+        .clients-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 32px;
+            align-items: center;
+            justify-items: center;
+        }
+
+        .client-logo {
+            max-width: 150px;
+            max-height: 80px;
+            object-fit: contain;
+            filter: grayscale(100%);
+            opacity: 0.7;
+            transition: all 0.3s ease;
+        }
+
+        .client-logo:hover {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 1024px) {
+            .clients-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .clients-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 24px;
+            }
+        }
+
         /* Reveal Animation */
         .reveal {
             opacity: 0;
@@ -1276,6 +1318,24 @@
         </div>
     </section>
 
+    <!-- Clients -->
+    <section class="clients" id="clients">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">Our Clients</span>
+                <h2 class="section-title">Trusted By Industry Leaders</h2>
+                <p class="section-desc">Partnering with leading organizations across India</p>
+            </div>
+            <div class="clients-grid">
+                <img src="images/param-infraspace.jpeg" alt="PARAM Infraspace" class="client-logo reveal">
+                <img src="images/elleys.jpeg" alt="Elleys" class="client-logo reveal">
+                <img src="images/v-trans.jpeg" alt="V-Trans" class="client-logo reveal">
+                <img src="images/gamma-consultants.jpeg" alt="1.5 Gamma Consultants" class="client-logo reveal">
+                <img src="images/loparex.jpeg" alt="Loparex" class="client-logo reveal">
+            </div>
+        </div>
+    </section>
+
     <!-- Services -->
     <section class="services" id="services">
         <div class="container">
@@ -1424,7 +1484,7 @@
             </div>
             <div class="founder-card reveal">
                 <div class="founder-img">
-                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80" alt="Suryakesh Kumar Singh" loading="lazy">
+                    <img src="images/founder.jpeg" alt="Suryakesh Kumar Singh" loading="lazy">
                 </div>
                 <div class="founder-content">
                     <h3>Suryakesh Kumar Singh</h3>
