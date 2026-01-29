@@ -105,6 +105,57 @@ def draw_client_logo(c, img_path, x, y, width, height, name):
         c.setFont("Helvetica-Bold", 9)
         c.drawCentredString(x + width/2, y + height/2 - 3*mm, name)
 
+def draw_surban_logo(c, center_x, center_y, scale=1.0, dark_bg=True):
+    """Draw the S-Urban logo at specified position and scale"""
+    c.saveState()
+
+    # Colors
+    yellow = HexColor('#F5C518')
+    dark = HexColor('#1a1a1a')
+    gray_light = HexColor('#e8e8e8')
+    gray_mid = HexColor('#d0d0d0')
+    text_color = WHITE if dark_bg else dark
+    sub_text_color = MID_GRAY if dark_bg else HexColor('#555555')
+
+    # Scale factors
+    s = scale
+
+    # Hat top (ellipse)
+    c.setFillColor(yellow)
+    c.setStrokeColor(dark)
+    c.setLineWidth(2 * s)
+    c.ellipse(center_x - 28*s, center_y + 50*s, center_x + 28*s, center_y + 65*s, fill=1, stroke=1)
+
+    # Hat brim
+    c.ellipse(center_x - 35*s, center_y + 42*s, center_x + 35*s, center_y + 55*s, fill=1, stroke=1)
+
+    # Face/head (gray ellipse)
+    c.setFillColor(gray_light)
+    c.ellipse(center_x - 18*s, center_y + 25*s, center_x + 18*s, center_y + 48*s, fill=1, stroke=1)
+
+    # Body (yellow rectangle with rounded corners)
+    c.setFillColor(yellow)
+    draw_rounded_rect(c, center_x - 35*s, center_y - 25*s, 70*s, 50*s, 5*s, fill_color=yellow, stroke_color=dark, stroke_width=2*s)
+
+    # Left handle
+    c.setFillColor(gray_mid)
+    draw_rounded_rect(c, center_x - 48*s, center_y - 10*s, 12*s, 28*s, 4*s, fill_color=gray_mid, stroke_color=dark, stroke_width=1.5*s)
+
+    # Right handle
+    draw_rounded_rect(c, center_x + 36*s, center_y - 10*s, 12*s, 28*s, 4*s, fill_color=gray_mid, stroke_color=dark, stroke_width=1.5*s)
+
+    # Text "S-URBAN"
+    c.setFillColor(text_color)
+    c.setFont("Helvetica-Bold", 18 * s)
+    c.drawCentredString(center_x, center_y - 45*s, "S-URBAN")
+
+    # Text "CONSULTANCY"
+    c.setFillColor(sub_text_color)
+    c.setFont("Helvetica", 10 * s)
+    c.drawCentredString(center_x, center_y - 58*s, "CONSULTANCY")
+
+    c.restoreState()
+
 def create_profile_pdf(output_path):
     c = canvas.Canvas(output_path, pagesize=A4)
     
@@ -126,20 +177,9 @@ def create_profile_pdf(output_path):
         c.line(WIDTH - 100 + i*15, HEIGHT, WIDTH - 50 + i*15, HEIGHT - 150)
     c.setStrokeAlpha(1)
     
-    # Company Logo - using the full logo with icon
-    try:
-        logo_width = 70*mm
-        logo_height = 70*mm
-        c.drawImage(os.path.join(IMAGES_DIR, 'logo_full.png'), 30*mm, HEIGHT - 90*mm, 
-                   width=logo_width, height=logo_height, 
-                   preserveAspectRatio=True, mask='auto')
-    except:
-        c.setFillColor(ACCENT_YELLOW)
-        c.setFont("Helvetica-Bold", 32)
-        c.drawString(30*mm, HEIGHT - 45*mm, "S-URBAN")
-        c.setFont("Helvetica", 16)
-        c.drawString(30*mm, HEIGHT - 55*mm, "CONSULTANCY")
-    
+    # Company Logo - draw the S-Urban logo
+    draw_surban_logo(c, 65*mm, HEIGHT - 60*mm, scale=1.2, dark_bg=True)
+
     # Tagline
     c.setFillColor(MID_GRAY)
     c.setFont("Helvetica-Oblique", 12)
@@ -680,7 +720,7 @@ def create_profile_pdf(output_path):
     card_x = 30*mm
     card_y = HEIGHT - 80*mm
     card_w = WIDTH - 60*mm
-    card_h = 95*mm
+    card_h = 105*mm
 
     # Card background with rounded corners
     c.setFillColor(CARD_BG)
@@ -688,11 +728,11 @@ def create_profile_pdf(output_path):
 
     # Yellow accent bar on left side of card
     c.setFillColor(ACCENT_YELLOW)
-    c.rect(card_x, card_y - card_h + 15*mm, 4*mm, card_h - 30*mm, fill=1, stroke=0)
+    c.rect(card_x, card_y - card_h + 12*mm, 4*mm, card_h - 24*mm, fill=1, stroke=0)
 
     # Content inside card
     content_x = card_x + 18*mm
-    content_y = card_y - 15*mm
+    content_y = card_y - 12*mm
 
     # CONTACT PERSON
     c.setFillColor(ACCENT_YELLOW)
@@ -701,10 +741,10 @@ def create_profile_pdf(output_path):
 
     c.setFillColor(WHITE)
     c.setFont("Helvetica", 14)
-    c.drawString(content_x, content_y - 12*mm, "Suryakesh Kumar Singh")
+    c.drawString(content_x, content_y - 10*mm, "Suryakesh Kumar Singh")
 
     # Row with PHONE and EMAIL
-    row2_y = content_y - 32*mm
+    row2_y = content_y - 28*mm
 
     c.setFillColor(ACCENT_YELLOW)
     c.setFont("Helvetica-Bold", 10)
@@ -734,31 +774,13 @@ def create_profile_pdf(output_path):
     c.drawString(content_x + 70*mm, row3_y - 10*mm, "s-urbanconsultancy.in")
 
     # Footer with logo - positioned below card with proper spacing
-    footer_y = 55*mm
-
-    # Decorative line above footer
-    c.setFillColor(ACCENT_YELLOW)
-    c.rect(WIDTH/2 - 30*mm, footer_y + 25*mm, 60*mm, 1.5*mm, fill=1, stroke=0)
-
-    # Footer with logo
-    try:
-        logo_w = 45*mm
-        logo_h = 32*mm
-        c.drawImage(os.path.join(IMAGES_DIR, 'logo_full.png'), WIDTH/2 - logo_w/2, footer_y - 5*mm,
-                   width=logo_w, height=logo_h,
-                   preserveAspectRatio=True, mask='auto')
-    except:
-        c.setFillColor(ACCENT_YELLOW)
-        c.setFont("Helvetica-Bold", 18)
-        c.drawCentredString(WIDTH/2, footer_y + 8*mm, "S-URBAN")
-        c.setFillColor(WHITE)
-        c.setFont("Helvetica", 10)
-        c.drawCentredString(WIDTH/2, footer_y, "CONSULTANCY")
+    # Draw the S-Urban logo
+    draw_surban_logo(c, WIDTH/2, 52*mm, scale=0.8, dark_bg=True)
 
     # Tagline at bottom
     c.setFillColor(MID_GRAY)
     c.setFont("Helvetica-Oblique", 11)
-    c.drawCentredString(WIDTH/2, 18*mm, "From Queries to Solutions")
+    c.drawCentredString(WIDTH/2, 12*mm, "From Queries to Solutions")
     
     c.save()
     print(f"PDF created successfully: {output_path}")
