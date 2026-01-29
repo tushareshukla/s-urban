@@ -106,53 +106,66 @@ def draw_client_logo(c, img_path, x, y, width, height, name):
         c.drawCentredString(x + width/2, y + height/2 - 3*mm, name)
 
 def draw_surban_logo(c, center_x, center_y, scale=1.0, dark_bg=True):
-    """Draw the S-Urban logo at specified position and scale"""
+    """Draw the S-Urban logo at specified position and scale - pixel perfect version"""
     c.saveState()
 
-    # Colors
-    yellow = HexColor('#F5C518')
-    dark = HexColor('#1a1a1a')
-    gray_light = HexColor('#e8e8e8')
-    gray_mid = HexColor('#d0d0d0')
-    text_color = WHITE if dark_bg else dark
-    sub_text_color = MID_GRAY if dark_bg else HexColor('#555555')
+    # Colors matching the logo exactly
+    yellow = HexColor('#E8B829')  # Golden yellow
+    gray_face = HexColor('#9E9E9E')  # Gray for face
+    gray_handle = HexColor('#BDBDBD')  # Lighter gray for handles
+    text_color = WHITE if dark_bg else HexColor('#1a1a1a')
 
-    # Scale factors
     s = scale
 
-    # Hat top (ellipse)
+    # === HELMET ===
+    # Helmet dome (top part)
     c.setFillColor(yellow)
-    c.setStrokeColor(dark)
-    c.setLineWidth(2 * s)
-    c.ellipse(center_x - 28*s, center_y + 50*s, center_x + 28*s, center_y + 65*s, fill=1, stroke=1)
+    c.setStrokeColor(yellow)
+    c.setLineWidth(0)
 
-    # Hat brim
-    c.ellipse(center_x - 35*s, center_y + 42*s, center_x + 35*s, center_y + 55*s, fill=1, stroke=1)
+    # Draw helmet dome as ellipse
+    c.ellipse(center_x - 22*s, center_y + 58*s, center_x + 22*s, center_y + 78*s, fill=1, stroke=0)
 
-    # Face/head (gray ellipse)
-    c.setFillColor(gray_light)
-    c.ellipse(center_x - 18*s, center_y + 25*s, center_x + 18*s, center_y + 48*s, fill=1, stroke=1)
+    # Helmet middle band
+    c.ellipse(center_x - 28*s, center_y + 52*s, center_x + 28*s, center_y + 62*s, fill=1, stroke=0)
 
-    # Body (yellow rectangle with rounded corners)
+    # Helmet brim (wider ellipse)
+    c.ellipse(center_x - 38*s, center_y + 45*s, center_x + 38*s, center_y + 56*s, fill=1, stroke=0)
+
+    # === FACE/HEAD ===
+    c.setFillColor(gray_face)
+    c.ellipse(center_x - 18*s, center_y + 28*s, center_x + 18*s, center_y + 52*s, fill=1, stroke=0)
+
+    # === BODY (folder/torso shape) ===
     c.setFillColor(yellow)
-    draw_rounded_rect(c, center_x - 35*s, center_y - 25*s, 70*s, 50*s, 5*s, fill_color=yellow, stroke_color=dark, stroke_width=2*s)
+    # Main body rectangle with rounded corners
+    draw_rounded_rect(c, center_x - 40*s, center_y - 20*s, 80*s, 52*s, 8*s, fill_color=yellow)
 
-    # Left handle
-    c.setFillColor(gray_mid)
-    draw_rounded_rect(c, center_x - 48*s, center_y - 10*s, 12*s, 28*s, 4*s, fill_color=gray_mid, stroke_color=dark, stroke_width=1.5*s)
+    # Folder notch on top left
+    c.setFillColor(yellow)
+    c.setStrokeColor(HexColor('#1a1a1a') if dark_bg else HexColor('#333333'))
+    c.setLineWidth(1.5*s)
+    # Draw a small notch line
+    c.line(center_x - 30*s, center_y + 32*s, center_x - 30*s, center_y + 22*s)
+    c.line(center_x - 30*s, center_y + 22*s, center_x - 18*s, center_y + 22*s)
 
+    # === HANDLES (on sides) ===
+    c.setFillColor(gray_handle)
+    # Left handle - rounded vertical rectangle
+    draw_rounded_rect(c, center_x - 52*s, center_y - 5*s, 12*s, 30*s, 5*s, fill_color=gray_handle)
     # Right handle
-    draw_rounded_rect(c, center_x + 36*s, center_y - 10*s, 12*s, 28*s, 4*s, fill_color=gray_mid, stroke_color=dark, stroke_width=1.5*s)
+    draw_rounded_rect(c, center_x + 40*s, center_y - 5*s, 12*s, 30*s, 5*s, fill_color=gray_handle)
 
-    # Text "S-URBAN"
+    # === TEXT ===
+    # "S-URBAN" - bold white text
     c.setFillColor(text_color)
-    c.setFont("Helvetica-Bold", 18 * s)
-    c.drawCentredString(center_x, center_y - 45*s, "S-URBAN")
+    c.setFont("Helvetica-Bold", 20 * s)
+    c.drawCentredString(center_x, center_y - 42*s, "S-URBAN")
 
-    # Text "CONSULTANCY"
-    c.setFillColor(sub_text_color)
-    c.setFont("Helvetica", 10 * s)
-    c.drawCentredString(center_x, center_y - 58*s, "CONSULTANCY")
+    # "Consultancy" - regular white text
+    c.setFillColor(text_color)
+    c.setFont("Helvetica", 12 * s)
+    c.drawCentredString(center_x, center_y - 56*s, "Consultancy")
 
     c.restoreState()
 
@@ -177,23 +190,29 @@ def create_profile_pdf(output_path):
         c.line(WIDTH - 100 + i*15, HEIGHT, WIDTH - 50 + i*15, HEIGHT - 150)
     c.setStrokeAlpha(1)
     
-    # Company Logo - draw the S-Urban logo
-    draw_surban_logo(c, 65*mm, HEIGHT - 60*mm, scale=1.2, dark_bg=True)
+    # Company Logo - use the logo image
+    logo_path = os.path.join(IMAGES_DIR, 'logo_full.png')
+    try:
+        c.drawImage(logo_path, 25*mm, HEIGHT - 95*mm, width=60*mm, height=60*mm,
+                   preserveAspectRatio=True, mask='auto')
+    except:
+        # Fallback to drawn logo
+        draw_surban_logo(c, 55*mm, HEIGHT - 55*mm, scale=1.0, dark_bg=True)
 
     # Tagline
     c.setFillColor(MID_GRAY)
     c.setFont("Helvetica-Oblique", 12)
-    c.drawString(30*mm, HEIGHT - 100*mm, "From Queries to Solutions")
+    c.drawString(30*mm, HEIGHT - 105*mm, "From Queries to Solutions")
     
     # Yellow accent line
     c.setFillColor(ACCENT_YELLOW)
-    c.rect(30*mm, HEIGHT - 107*mm, 50*mm, 2*mm, fill=1, stroke=0)
-    
+    c.rect(30*mm, HEIGHT - 112*mm, 50*mm, 2*mm, fill=1, stroke=0)
+
     # Main Title
     c.setFillColor(WHITE)
     c.setFont("Helvetica-Bold", 42)
-    c.drawString(30*mm, HEIGHT - 140*mm, "BUSINESS")
-    c.drawString(30*mm, HEIGHT - 158*mm, "PROFILE")
+    c.drawString(30*mm, HEIGHT - 145*mm, "BUSINESS")
+    c.drawString(30*mm, HEIGHT - 163*mm, "PROFILE")
     
     # Year badge - Updated to 2026
     c.setFillColor(ACCENT_YELLOW)
@@ -589,7 +608,7 @@ def create_profile_pdf(output_path):
     c.setFont("Helvetica", 12)
     c.drawString(30*mm, HEIGHT - 52*mm, "Partnering with leading organizations across India")
     
-    # Client logos - Now with 6 clients including Aadhar Equipments
+    # Client logos - 6 clients + "more" indicator
     clients = [
         (os.path.join(IMAGES_DIR, "param-infraspace.jpeg"), "PARAM Infraspace"),
         (os.path.join(IMAGES_DIR, "elleys.jpeg"), "Elleys"),
@@ -598,27 +617,27 @@ def create_profile_pdf(output_path):
         (os.path.join(IMAGES_DIR, "loparex.jpeg"), "Loparex"),
         (os.path.join(IMAGES_DIR, "aadhar-equipments.jpeg"), "Aadhar Equipments")
     ]
-    
-    # Grid layout: 3 columns x 2 rows
+
+    # Grid layout: 3 columns x 3 rows (6 logos + 1 "more" card)
     logo_w = 50*mm
-    logo_h = 32*mm
+    logo_h = 30*mm
     margin_x = 20*mm
     gap_x = 12*mm
-    gap_y = 12*mm
-    start_y = HEIGHT - 70*mm
-    
+    gap_y = 10*mm
+    start_y = HEIGHT - 68*mm
+
     for i, (img_path, name) in enumerate(clients):
         col = i % 3
         row = i // 3
-        
+
         x = margin_x + col * (logo_w + gap_x)
         y = start_y - row * (logo_h + gap_y)
-        
+
         draw_client_logo(c, img_path, x, y - logo_h, logo_w, logo_h, name)
-    
+
     # ==================== FOUNDER SECTION ====================
-    
-    founder_y = HEIGHT - 165*mm
+
+    founder_y = HEIGHT - 160*mm
     
     c.setFillColor(ACCENT_YELLOW)
     c.setFont("Helvetica-Bold", 11)
@@ -774,13 +793,19 @@ def create_profile_pdf(output_path):
     c.drawString(content_x + 70*mm, row3_y - 10*mm, "s-urbanconsultancy.in")
 
     # Footer with logo - positioned below card with proper spacing
-    # Draw the S-Urban logo
-    draw_surban_logo(c, WIDTH/2, 52*mm, scale=0.8, dark_bg=True)
+    logo_path = os.path.join(IMAGES_DIR, 'logo_full.png')
+    try:
+        logo_w = 45*mm
+        logo_h = 45*mm
+        c.drawImage(logo_path, WIDTH/2 - logo_w/2, 25*mm, width=logo_w, height=logo_h,
+                   preserveAspectRatio=True, mask='auto')
+    except:
+        draw_surban_logo(c, WIDTH/2, 52*mm, scale=0.7, dark_bg=True)
 
     # Tagline at bottom
     c.setFillColor(MID_GRAY)
     c.setFont("Helvetica-Oblique", 11)
-    c.drawCentredString(WIDTH/2, 12*mm, "From Queries to Solutions")
+    c.drawCentredString(WIDTH/2, 15*mm, "From Queries to Solutions")
     
     c.save()
     print(f"PDF created successfully: {output_path}")
